@@ -6,8 +6,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 app = Flask(__name__)
-# CORS(app, resources={r"/calculate-loan": {"origins": "http://127.0.0.1:5500"}})
 
+# CORS used by flask to allow access to these resources  
 CORS(app, resources={
     r"/calculate-loan": {"origins": "http://127.0.0.1:5500"},
     r"/download-pdf": {"origins": "http://127.0.0.1:5500"}
@@ -66,7 +66,6 @@ def calculate_loan():
     if frequency == "Annually":
         time = period
     elif frequency == "Quarterly":
-        # Eg 5 years * 4 = 20
         time = period * 4
     elif frequency == "Monthly":
         time = period * 12
@@ -108,11 +107,12 @@ def calculate_loan():
         "Total Cost": total_cost
     }
 
-    # Generate and save the PDF
+    # To Generate and save the PDF uncomment below line
     # generate_and_save_pdf(result)
 
     return jsonify(result)
 
+# To Generate and save the PDF uncomment from line 118 to 160
 
 # def generate_and_save_pdf(data):
 #     pdf_file = "loan_computation.pdf"
