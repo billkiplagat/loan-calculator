@@ -1,5 +1,5 @@
 # Loan Calculator Web Application
-This full-stack web application is designed to help users calculate loan instalments using either Flat Rate or Reducing Balance interest computation methods. It also allows users to compare loan rates offered by two financial institutions, Bank A and Bank B. The application provides a breakdown of charges, such as processing fees, excise duty, and legal fees, and displays the take-home amount for the user. In addition, users can download instalments as a PDF file or email them to a specified email address. An API is also available for external parties to access this functionality.
+This full-stack web application is designed to help users calculate loan instalments using either Flat Rate or Reducing Balance interest computation methods. It also allows users to compare loan rates offered by two financial institutions, Bank A and Bank B. The application provides a breakdown of charges, such as processing fees, excise duty, and legal fees, and displays the take-home amount for the user. In addition, users can download instalments as a PDF file. The API is also available for external parties to access this functionality.
 
 # Requirements
 To run this project, make sure you have the following components and libraries installed on your system:
@@ -22,10 +22,10 @@ Backend: Flask (Python web framework).
 # Running the Backend
 To start the backend server, follow these steps:
 
-# Open your terminal.
-Navigate to the 'api' directory.
-Ensure you have the required Python version and libraries installed.
-Run the following command: `python main.py`
+1. Open your terminal.
+2. Navigate to the 'api' directory.
+3. Ensure you have the required Python version and libraries installed.
+4. Run the following command: `python main.py`
 This command will start the Flask server, and it will be accessible at http://localhost:5000.
 
 # Running the Frontend
