@@ -1,9 +1,18 @@
 from datetime import datetime
-from flask import Flask, request, jsonify
+
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 
 app = Flask(__name__)
-CORS(app, resources={r"/calculate-loan": {"origins": "http://127.0.0.1:5500"}})
+# CORS(app, resources={r"/calculate-loan": {"origins": "http://127.0.0.1:5500"}})
+
+CORS(app, resources={
+    r"/calculate-loan": {"origins": "http://127.0.0.1:5500"},
+    r"/download-pdf": {"origins": "http://127.0.0.1:5500"}
+})
+
 
 # Constants for bank rates and fees
 BANK_RATES = {
@@ -99,7 +108,55 @@ def calculate_loan():
         "Total Cost": total_cost
     }
 
+    # Generate and save the PDF
+    # generate_and_save_pdf(result)
+
     return jsonify(result)
+
+
+# def generate_and_save_pdf(data):
+#     pdf_file = "loan_computation.pdf"
+#     doc = SimpleDocTemplate(pdf_file, pagesize=letter)
+#     elements = []
+#
+#     # Create a table for the loan details
+#     data = [
+#         ["Loan Details", "Values"],
+#         ["Amount to borrow", data["Amount to borrow"]],
+#         ["Payment frequency", data["Payment frequency"]],
+#         ["Loan period in years", data["Loan period in years"]],
+#         ["Start date", data["Start date"]],
+#         ["Interest Type", data["Interest Type"]],
+#         ["Bank", data["Bank"]],
+#         ["Total Fees", data["Total Fees"]],
+#         ["Total Interest", data["Total Interest"]],
+#         ["Total Cost", data["Total Cost"]],
+#     ]
+#     t = Table(data, colWidths=[200, 200], rowHeights=30)
+#     t.setStyle(TableStyle([
+#         ('BACKGROUND', (0, 0), (-1, 0), (0.8, 0.8, 0.8)),
+#         ('TEXTCOLOR', (0, 0), (-1, 0), (0, 0, 0)),
+#         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+#         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+#         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+#         ('BACKGROUND', (0, 1), (-1, -1), (0.9, 0.9, 0.9)),
+#         ('GRID', (0, 0), (-1, -1), 1, (0, 0, 0)),
+#     ]))
+#     elements.append(t)
+#
+#     doc.build(elements)
+#
+#
+# @app.route('/download-pdf', methods=['GET'])
+# def download_pdf():
+#     pdf_file = "loan_computation.pdf"
+#     with open(pdf_file, 'rb') as f:
+#         pdf_data = f.read()
+#
+#     response = Response(pdf_data, mimetype='application/pdf')
+#     response.headers['Content-Disposition'] = f'attachment; filename={pdf_file}'
+#
+#     return response
 
 
 if __name__ == '__main__':

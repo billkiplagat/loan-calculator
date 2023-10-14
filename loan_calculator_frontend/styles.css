@@ -5,24 +5,84 @@ body {
     
 }
 
+header {
+    background-color: #333;
+    color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 15px;
+    
+}
+footer {
+    background-color: #333;
+    color: #fff; 
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 15px 15px;
+}
+
+main {
+    padding: 20px; /* To prevent content from overlapping with the header and footer */
+}
+
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+    margin: 10px 10px;
+}
+
+label {
+    display: inline-block;
+}
+
+input, select {
+    width: 30%;
+    padding: 10px;
+    margin: 5px 10px;
+}
+
+#calculate-button{
+    color: red;
+    width: 30%;
+    padding: 10px 0px;
+    margin-left: 60px;
+    margin-top: 30px;
+}
+
+#download-pdf-button {
+    color: red;
+    width: 70%;
+    padding: 10px 0px;
+    margin-left: 30px;
+    margin-top: 10px;
 }
 
 h1 {
-    text-align: center;
+    text-align: left;
 }
 
 #loan-form {
-    text-align: center;
+    text-align: left;
+    margin-top: 45px;
+    width: 60%;
+
 }
 
 #result {
-    text-align: center;
+    text-align: left;
     margin-top: 20px;
-    display: none;
+}
+
+#result {
+    margin-bottom: 50px;
+    
+    
+
 }

@@ -1,4 +1,4 @@
 Python 3.10.7
 flask~=3.0.0
-
+reportlab~=4.0.6
 #To run app -> python main.py
