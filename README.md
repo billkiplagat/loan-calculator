@@ -23,7 +23,7 @@ Backend: Flask (Python web framework).
 To start the backend server, follow these steps:
 
 1. Open your terminal.
-2. Navigate to the 'api' directory.
+2. Navigate to the 'loan_calculator_api' directory.
 3. Ensure you have the required Python version and libraries installed.
 4. Run the following command: `python main.py`
 This command will start the Flask server, and it will be accessible at http://localhost:5000.
