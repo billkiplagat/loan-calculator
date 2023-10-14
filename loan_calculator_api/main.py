@@ -1,0 +1,106 @@
+from datetime import datetime
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app, resources={r"/calculate-loan": {"origins": "http://127.0.0.1:5500"}})
+
+# Constants for bank rates and fees
+BANK_RATES = {
+    "Bank A": {"Flat Rate": 0.20, "Reducing Balance": 0.22},
+    "Bank B": {"Flat Rate": 0.18, "Reducing Balance": 0.25}
+}
+# Constants for all the 2 banks
+PROCESSING_FEES_PERCENTAGE = 0.03
+EXCISE_DUTY_PERCENTAGE = 0.20
+LEGAL_FEES = 10000
+
+
+# Function to calculate the total interest
+def calculate_interest(principal, rate, time, interest_type):
+    if interest_type == "Flat Rate":
+        return principal * rate * time
+    elif interest_type == "Reducing Balance":
+        #  interest is calculated on the remaining loan balance after each payment,
+        #  so the interest amount decreases over time as the principal is gradually paid down.
+        return principal * rate * (1 - (1 + rate) ** (-time)) / (1 - (1 + rate))
+
+
+# Function to validate the date format
+def validate_date(date_str):
+    try:
+        datetime.strptime(date_str, '%d/%m/%Y')
+        return True
+    except ValueError:
+        return False
+
+
+# API route for calculating loan details
+@app.route('/calculate-loan', methods=['POST'])
+def calculate_loan():
+    # Get loan data in json
+    data = request.get_json()
+    # amount = data['amount']
+    try:
+        amount = float(data['amount'])  # Convert amount to float
+    except ValueError:
+        return jsonify({"error": "Invalid amount format"}), 400
+    frequency = data['frequency']
+    period = data['period']
+    start_date = data['start_date']
+    interest_type = data['interest_type']
+    bank = data['bank']
+
+    processing_fees = amount * PROCESSING_FEES_PERCENTAGE
+    excise_duty = processing_fees * EXCISE_DUTY_PERCENTAGE
+
+    if frequency == "Annually":
+        time = period
+    elif frequency == "Quarterly":
+        # Eg 5 years * 4 = 20
+        time = period * 4
+    elif frequency == "Monthly":
+        time = period * 12
+    elif frequency == "Every 6 Months":
+        time = period * 2
+    else:
+        return jsonify({"error": "Invalid payment frequency"}), 400
+
+    if bank in BANK_RATES:
+        bank_rates = BANK_RATES[bank]
+        if interest_type in bank_rates:
+            interest_rate = bank_rates[interest_type]
+        else:
+            return jsonify({"error": "Invalid interest type for the selected bank"}), 400
+    else:
+        return jsonify({"error": "Invalid bank selection"}), 400
+
+    if not validate_date(start_date):
+        return jsonify({"error": "Invalid date format. Use dd/mm/yyyy."}), 400
+
+    total_interest = calculate_interest(amount, interest_rate, time, interest_type)
+
+    # total_fees is the additional costs you incur when obtaining the loan, beyond the principal amount and interest.
+    total_fees = processing_fees + excise_duty + LEGAL_FEES
+
+    # total_cost provides a comprehensive view of the overall financial impact of the loan
+    # total amount you need to repay, including the borrowed amount, interest, and any associated fees.
+    total_cost = amount + total_interest + total_fees
+
+    result = {
+        "Amount to borrow": amount,
+        "Payment frequency": frequency,
+        "Loan period in years": period,
+        "Start date": start_date,
+        "Interest Type": interest_type,
+        "Bank": bank,
+        "Total Fees": total_fees,
+        "Total Interest": total_interest,
+        "Total Cost": total_cost
+    }
+
+    return jsonify(result)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

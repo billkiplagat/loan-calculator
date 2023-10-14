@@ -1,0 +1,4 @@
+Python 3.10.7
+flask~=3.0.0
+
+#To run app -> python main.py
