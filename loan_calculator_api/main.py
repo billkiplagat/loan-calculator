@@ -3,8 +3,9 @@ from datetime import datetime
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
 app = Flask(__name__)
 
 # CORS used by flask to allow access to these resources
@@ -105,12 +106,12 @@ def calculate_loan():
     }
 
     # To Generate and save the PDF uncomment below line
-    generate_and_save_pdf(result)
+    generate_and_save_pdf(result, bank)
 
     return jsonify(result)
 
 
-def generate_and_save_pdf(data):
+def generate_and_save_pdf(data, bank):
     pdf_file = "loan_computation.pdf"
     doc = SimpleDocTemplate(pdf_file, pagesize=letter)
     elements = []
@@ -128,6 +129,10 @@ def generate_and_save_pdf(data):
         ["Total Interest", data["Total Interest"]],
         ["Total Cost", data["Total Cost"]],
     ]
+    styles = getSampleStyleSheet()
+    elements.append(Paragraph(datetime.now().strftime('%Y-%m-%d'), styles['Normal']))
+    elements.append(Paragraph(bank, styles['Normal']))
+
     t = Table(data, colWidths=[200, 200], rowHeights=30)
     t.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), (0.8, 0.8, 0.8)),
