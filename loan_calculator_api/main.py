@@ -108,55 +108,55 @@ def calculate_loan():
     }
 
     # To Generate and save the PDF uncomment below line
-    # generate_and_save_pdf(result)
+    generate_and_save_pdf(result)
 
     return jsonify(result)
 
 # To Generate and save the PDF uncomment from line 118 to 160
 
-# def generate_and_save_pdf(data):
-#     pdf_file = "loan_computation.pdf"
-#     doc = SimpleDocTemplate(pdf_file, pagesize=letter)
-#     elements = []
-#
-#     # Create a table for the loan details
-#     data = [
-#         ["Loan Details", "Values"],
-#         ["Amount to borrow", data["Amount to borrow"]],
-#         ["Payment frequency", data["Payment frequency"]],
-#         ["Loan period in years", data["Loan period in years"]],
-#         ["Start date", data["Start date"]],
-#         ["Interest Type", data["Interest Type"]],
-#         ["Bank", data["Bank"]],
-#         ["Total Fees", data["Total Fees"]],
-#         ["Total Interest", data["Total Interest"]],
-#         ["Total Cost", data["Total Cost"]],
-#     ]
-#     t = Table(data, colWidths=[200, 200], rowHeights=30)
-#     t.setStyle(TableStyle([
-#         ('BACKGROUND', (0, 0), (-1, 0), (0.8, 0.8, 0.8)),
-#         ('TEXTCOLOR', (0, 0), (-1, 0), (0, 0, 0)),
-#         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-#         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-#         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-#         ('BACKGROUND', (0, 1), (-1, -1), (0.9, 0.9, 0.9)),
-#         ('GRID', (0, 0), (-1, -1), 1, (0, 0, 0)),
-#     ]))
-#     elements.append(t)
-#
-#     doc.build(elements)
-#
-#
-# @app.route('/download-pdf', methods=['GET'])
-# def download_pdf():
-#     pdf_file = "loan_computation.pdf"
-#     with open(pdf_file, 'rb') as f:
-#         pdf_data = f.read()
-#
-#     response = Response(pdf_data, mimetype='application/pdf')
-#     response.headers['Content-Disposition'] = f'attachment; filename={pdf_file}'
-#
-#     return response
+def generate_and_save_pdf(data):
+    pdf_file = "loan_computation.pdf"
+    doc = SimpleDocTemplate(pdf_file, pagesize=letter)
+    elements = []
+
+    # Create a table for the loan details
+    data = [
+        ["Loan Details", "Values"],
+        ["Amount to borrow", data["Amount to borrow"]],
+        ["Payment frequency", data["Payment frequency"]],
+        ["Loan period in years", data["Loan period in years"]],
+        ["Start date", data["Start date"]],
+        ["Interest Type", data["Interest Type"]],
+        ["Bank", data["Bank"]],
+        ["Total Fees", data["Total Fees"]],
+        ["Total Interest", data["Total Interest"]],
+        ["Total Cost", data["Total Cost"]],
+    ]
+    t = Table(data, colWidths=[200, 200], rowHeights=30)
+    t.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), (0.8, 0.8, 0.8)),
+        ('TEXTCOLOR', (0, 0), (-1, 0), (0, 0, 0)),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), (0.9, 0.9, 0.9)),
+        ('GRID', (0, 0), (-1, -1), 1, (0, 0, 0)),
+    ]))
+    elements.append(t)
+
+    doc.build(elements)
+
+
+@app.route('/download-pdf', methods=['GET'])
+def download_pdf():
+    pdf_file = "loan_computation.pdf"
+    with open(pdf_file, 'rb') as f:
+        pdf_data = f.read()
+
+    response = Response(pdf_data, mimetype='application/pdf')
+    response.headers['Content-Disposition'] = f'attachment; filename={pdf_file}'
+
+    return response
 
 
 if __name__ == '__main__':

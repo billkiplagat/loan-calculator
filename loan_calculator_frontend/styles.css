@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+  }
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -32,36 +35,22 @@ main {
 
 .container {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-content: center;
-    margin: 10px 10px;
-}
-
-label {
-    display: inline-block;
+    flex-direction: column;
+    margin: 50px 10px;
 }
 
 input, select {
-    width: 30%;
+    width: 25vh;
     padding: 10px;
     margin: 5px 10px;
 }
 
-#calculate-button{
+#calculate-button, #download-pdf-button{
     color: red;
-    width: 30%;
+    width: 24vh;
     padding: 10px 0px;
     margin-left: 60px;
     margin-top: 30px;
-}
-
-#download-pdf-button {
-    color: red;
-    width: 70%;
-    padding: 10px 0px;
-    margin-left: 30px;
-    margin-top: 10px;
 }
 
 h1 {
@@ -70,19 +59,26 @@ h1 {
 
 #loan-form {
     text-align: left;
-    margin-top: 45px;
-    width: 60%;
+    margin-top: 15px;
+    width: 50%;
 
 }
 
 #result {
     text-align: left;
-    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
-#result {
-    margin-bottom: 50px;
-    
-    
+input.highlight-red,
+select.highlight-red,
+textarea.highlight-red {
+  border: 1px solid red;
+}
 
+@media (min-width: 500px) {
+    .container {
+        display: flex;
+        flex-direction: row;
+        margin: 50px 10px;
+    }
 }

@@ -1,6 +1,15 @@
 $(document).ready(function() {
 
     $('#calculate-button').on('click', function() {
+         // Loop through required fields and add 'highlight-red' class if they are empty
+         $('input[required], select[required], textarea[required]').each(function() {
+            if ($(this).val() === "") {
+                $(this).addClass('highlight-red');
+            } else {
+                $(this).removeClass('highlight-red');
+            }
+        });
+        
         let formData = {
             amount: parseInt($('#amount').val()),
             frequency: $('#frequency').val(),
