@@ -105,7 +105,7 @@ def calculate_loan():
     }
 
     # To Generate and save the PDF uncomment below line
-    # generate_and_save_pdf(result)
+    generate_and_save_pdf(result)
 
     return jsonify(result)
 
