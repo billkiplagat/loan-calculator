@@ -1,6 +1,7 @@
 Python 3.10.7
-flask~=3.0.0 Command -> pip3 install flask
-reportlab~=4.0.6 Command -> pip3 install reportlab
-CORS Command -> pip3 install flask-cors
+flask~=3.0.0
+reportlab~=4.0.6
+CORS
 
-#To run app -> python main.py
+# Command -> pip3 install ""
+# To run app -> python main.py

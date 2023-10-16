@@ -13,7 +13,6 @@ CORS(app, resources={
     r"/download-pdf": {"origins": "http://127.0.0.1:5500"}
 })
 
-
 # Constants for bank rates and fees
 BANK_RATES = {
     "Bank A": {"Flat Rate": 0.20, "Reducing Balance": 0.22},
@@ -91,8 +90,7 @@ def calculate_loan():
     # total_fees is the additional costs you incur when obtaining the loan, beyond the principal amount and interest.
     total_fees = processing_fees + excise_duty + LEGAL_FEES
 
-    # total_cost provides a comprehensive view of the overall financial impact of the loan
-    # total amount you need to repay, including the borrowed amount, interest, and any associated fees.
+    # total_cost is the comprehensive view of the overall financial impact of the loan
     total_cost = amount + total_interest + total_fees
 
     result = {
@@ -108,18 +106,17 @@ def calculate_loan():
     }
 
     # To Generate and save the PDF uncomment below line
-    generate_and_save_pdf(result)
+    # generate_and_save_pdf(result)
 
     return jsonify(result)
 
-# To Generate and save the PDF uncomment from line 118 to 160
 
 def generate_and_save_pdf(data):
     pdf_file = "loan_computation.pdf"
     doc = SimpleDocTemplate(pdf_file, pagesize=letter)
     elements = []
 
-    # Create a table for the loan details
+    # Create a table for the loan details 2D list
     data = [
         ["Loan Details", "Values"],
         ["Amount to borrow", data["Amount to borrow"]],
@@ -155,6 +152,10 @@ def download_pdf():
 
     response = Response(pdf_data, mimetype='application/pdf')
     response.headers['Content-Disposition'] = f'attachment; filename={pdf_file}'
+    # Add headers to prevent caching
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
 
     return response
 
